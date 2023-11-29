@@ -23,6 +23,9 @@ namespace Infrastructure.Persistence.Context
             base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
             //if is deleted equal true continue
+            modelBuilder.Entity<Product>().HasQueryFilter(x => x.IsDelete == false);
+            modelBuilder.Entity<ProductBrand>().HasQueryFilter(x => x.IsDelete == false);
+            modelBuilder.Entity<ProductType>().HasQueryFilter(x => x.IsDelete == false);
 
         }
     }

@@ -16,7 +16,6 @@
     <Folder Include="Features\Basket\" />
     <Folder Include="Features\Products\Commands\" />
     <Folder Include="Features\Products\Validators\" />
-    <Folder Include="Features\Products\Queries\" />
     <Folder Include="Features\ProductTypes\" />
     <Folder Include="Features\ProductBrands\" />
     <Folder Include="Features\Orders\" />
@@ -27,6 +26,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="MediatR" Version="11.1.0" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.1.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.25" />
   </ItemGroup>
 

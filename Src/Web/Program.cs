@@ -1,5 +1,6 @@
 using Infrastructure;
 using Infrastructure.Persistence.Configurations;
+using Infrastructure.Persistence.SeedData;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Web;
@@ -17,12 +18,16 @@ builder.Services.AddSwaggerGen();
 //Configuartion
 builder.AddWebServiceCollation();
 var app = builder.Build();
-var loggerFactory = app.Services.GetRequiredService<ILoggerFactory>();
+var scope = app.Services.CreateScope();
+var services = scope.ServiceProvider;
+//get service
+var loggerFactory = services.GetRequiredService<ILoggerFactory>();
+var context = services.GetRequiredService<ApplicationDbContext>();
 try
 {
-    var context = app.Services.GetRequiredService<ApplicationDbContext>();
+    
     await context.Database.MigrateAsync();
-   
+    await GenerateFakeData.SeedDataAsync(context, loggerFactory);
 }
 catch(Exception e)
 {

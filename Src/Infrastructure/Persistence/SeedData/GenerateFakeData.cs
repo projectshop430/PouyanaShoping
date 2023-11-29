@@ -16,6 +16,8 @@ namespace Infrastructure.Persistence.SeedData
         {
             try
             {
+                
+
                 if (!await context.ProductBrand.AnyAsync())
                 {
                     var brands = ProductBrands();
@@ -29,7 +31,6 @@ namespace Infrastructure.Persistence.SeedData
                     await context.ProductType.AddRangeAsync(types);
                     await context.SaveChangesAsync();
                 }
-
                 if (!await context.Products.AnyAsync())
                 {
                     //TODO picture url
@@ -37,6 +38,7 @@ namespace Infrastructure.Persistence.SeedData
                     await context.Products.AddRangeAsync(products);
                     await context.SaveChangesAsync();
                 }
+
             }
               catch (Exception e)
             {
@@ -106,6 +108,7 @@ namespace Infrastructure.Persistence.SeedData
                 Title = "product 1",
                 ProductBrandId = 1,
                 ProductTypeId = 1,
+                
             },
             new()
             {

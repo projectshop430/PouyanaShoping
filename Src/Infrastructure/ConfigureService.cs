@@ -13,8 +13,7 @@ namespace Infrastructure
     public static class ConfigureService
     {
 
-        public static IServiceCollection AddInfrastructureServices(this IServiceCollection services,
-      IConfiguration configuration)
+        public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<ApplicationDbContext>(option =>
             {

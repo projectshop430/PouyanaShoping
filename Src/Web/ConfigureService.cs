@@ -8,8 +8,6 @@ namespace Web
     {
         public static IServiceCollection AddWebServiceCollation(this WebApplicationBuilder Builder)
         {
-            Builder.Services.AddDbContext<ApplicationDbContext>(options =>
-            options.UseSqlServer(Builder.Configuration.GetConnectionString("DefaultConnection")));
             return Builder.Services;
         }
     }

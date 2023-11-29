@@ -18,7 +18,9 @@ namespace Application.Features.Products.Queries.GetAll
         }
         public async Task<IEnumerable<Product>> Handle(GetAllProductsQuery request, CancellationToken cancellationToken)
         {
-            return await _unow.Repository<Product>().GetAllAsync(cancellationToken);
+            var spec = new GetProductSpec();
+            return await _unow.Repository<Product>().ListAsyncSpec(spec, cancellationToken);
+            //return await _unow.Repository<Product>().GetAllAsync(cancellationToken);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Application.Contracts;
+using Application.Contracts.Specification;
 using Domain.Entities.Base;
 using Infrastructure.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
@@ -38,6 +39,11 @@ namespace Infrastructure.Persistence
             return await _dbSet.AnyAsync(cancellationToken);
         }
 
+        public async Task<int> CountAsyncSpec(ISpecification<T> spec, CancellationToken cancellationToken)
+        {
+            return await ApplySpecification(spec).CountAsync(cancellationToken);
+        }
+
         public async Task Delete(T entity, CancellationToken cancellationToken)
         {
             var record = await GetByIdAsync(entity.Id, cancellationToken);
@@ -56,11 +62,30 @@ namespace Infrastructure.Persistence
             return await _dbSet.FirstOrDefaultAsync(x=>x.Id==id, cancellationToken);
         }
 
+        public async Task<T> GetEntityWithSpec(ISpecification<T> spec, CancellationToken cancellationToken)
+        {
+            return await ApplySpecification(spec).FirstOrDefaultAsync(cancellationToken);
+        }
+
+        public async  Task<IReadOnlyList<T>> ListAsyncSpec(ISpecification<T> spec, CancellationToken cancellationToken)
+        {
+            return await ApplySpecification(spec).ToListAsync(cancellationToken);
+        }
+
+        public async Task<List<T>> ToListAsync(CancellationToken cancellationToken)
+        {
+            return await _dbSet.ToListAsync(cancellationToken);
+        }
+
         public Task<T> UpdateAsync(T entity)
         {
            _context.Entry(entity).State=EntityState.Modified;
             return Task.FromResult(entity); 
                 
+        }
+        private IQueryable<T> ApplySpecification(ISpecification<T> spec)
+        {
+            return SpecificationEvaluator<T>.GetQuery(_dbSet.AsQueryable(), spec);
         }
     }
 }

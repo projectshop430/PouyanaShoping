@@ -22,8 +22,9 @@ namespace Application.Features.ProductBrands.Queries.GetAll
             CancellationToken cancellationToken)
         {
             var spec = new ProductBrandSpec();
-            return await _uow.Repository<ProductBrand>().GetAllAsync(cancellationToken);
-      
+            return await _uow.Repository<ProductBrand>().ListAsyncSpec(spec,cancellationToken);
+            //return await _uow.Repository<ProductBrand>().GetAllAsync(cancellationToken);
+
         }
     }
 }

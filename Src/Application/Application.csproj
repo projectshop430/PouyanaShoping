@@ -12,6 +12,11 @@
 
   <ItemGroup>
     <Folder Include="Dtos\Common\" />
+    <Folder Include="Dtos\Account\" />
+    <Folder Include="Dtos\OrderDto\" />
+    <Folder Include="Dtos\ProductBrands\" />
+    <Folder Include="Dtos\ProductTypes\" />
+    <Folder Include="Dtos\Products\" />
     <Folder Include="Features\Account\" />
     <Folder Include="Features\Basket\" />
     <Folder Include="Features\Products\Commands\" />

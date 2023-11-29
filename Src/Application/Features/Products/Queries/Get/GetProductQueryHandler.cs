@@ -23,10 +23,11 @@ namespace Application.Features.Products.Queries.Get
 
         public async Task<Product> Handle(GetProductQuery request, CancellationToken cancellationToken)
         {
-           
-            var entity = await _uow.Repository<Product>().GetByIdAsync(request.Id, cancellationToken);
-            if (entity == null) throw new Exception("error message");
-            return entity;
+            var spec = new GetProductSpec(request.Id);
+            return await _uow.Repository<Product>().GetEntityWithSpec(spec, cancellationToken);
+            //var entity = await _uow.Repository<Product>().GetByIdAsync(request.Id, cancellationToken);
+            //if (entity == null) throw new Exception("error message");
+            //return entity;
         }
     }
 }

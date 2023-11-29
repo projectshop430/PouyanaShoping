@@ -15,7 +15,9 @@ namespace Infrastructure.Persistence.Configurations
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
         }
-        public DbSet<Product> Products=>Set<Product>();
+        public DbSet<Product> Products => Set<Product>();
+        public DbSet<ProductType> ProductType => Set<ProductType>();
+        public DbSet<ProductBrand> ProductBrand => Set<ProductBrand>();
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

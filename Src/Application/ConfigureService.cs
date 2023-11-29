@@ -1,12 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MediatR;
+using Microsoft.Extensions.DependencyInjection;
+using System.Reflection;
+
+
 
 namespace Application
 {
-    internal class ConfigureService
+    public static class ConfigureService
     {
+        public static void AddApplicationServices(this IServiceCollection services)
+        {
+         
+            //collection add => service provider get =>DI
+            services.AddMediatR(Assembly.GetExecutingAssembly());
+           
+        }
     }
 }

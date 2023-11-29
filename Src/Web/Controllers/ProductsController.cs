@@ -1,4 +1,5 @@
-﻿using Application.Features.Products.Queries.Get;
+﻿using Application.Features.ProductBrands.Queries.GetAll;
+using Application.Features.Products.Queries.Get;
 using Application.Features.Products.Queries.GetAll;
 using Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
@@ -19,6 +20,6 @@ namespace Web.Controllers
         {
             return Ok(await Mediator.Send(new GetProductQuery(id), cancellationToken));
         }
-
+       
     }
 }

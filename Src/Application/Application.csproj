@@ -16,8 +16,6 @@
     <Folder Include="Features\Basket\" />
     <Folder Include="Features\Products\Commands\" />
     <Folder Include="Features\Products\Validators\" />
-    <Folder Include="Features\ProductTypes\" />
-    <Folder Include="Features\ProductBrands\" />
     <Folder Include="Features\Orders\" />
     <Folder Include="Helpers\" />
     <Folder Include="Interfaces\" />

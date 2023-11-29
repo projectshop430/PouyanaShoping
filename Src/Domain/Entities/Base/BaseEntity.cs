@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace Domain.Entities.Base
 {
-    internal class BaseEntities
+    public class BaseEntity
     {
+        public int Id { get; set; }
+
     }
 }

@@ -22,7 +22,6 @@
     <Folder Include="Features\Products\Validators\" />
     <Folder Include="Features\Orders\" />
     <Folder Include="Interfaces\" />
-    <Folder Include="Wrappers\" />
   </ItemGroup>
 
   <ItemGroup>

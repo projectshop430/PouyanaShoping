@@ -4,21 +4,19 @@ using Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Application.Features.Products.Queries.GetAll
 {
-    public class GetProductSpec :BaseSpecification<Product>
+    public class GetProductSpec : BaseSpecification<Product>
     {
-        public GetProductSpec(GetAllProductsQuery specParams) : base(x=> 
-        (!specParams.BrandId.HasValue || x.ProductBrandId ==specParams.BrandId)
-        && (!specParams.TypeId.HasValue || x.ProductTypeId == specParams.TypeId)
-        )
+        public GetProductSpec(GetAllProductsQuery specParams) : base(Expression.ExpressionSpec(specParams))
         {
+            //include
             AddInclude(x => x.ProductBrand);
             AddInclude(x => x.ProductType);
-
             //sort
             if (specParams.TypeSort == TypeSort.Desc)
                 switch (specParams.Sort)
@@ -54,13 +52,34 @@ namespace Application.Features.Products.Queries.GetAll
                 }
             //pagination
             ApplyPaging(specParams.PageSize * (specParams.PageIndex - 1), specParams.PageSize, true);
-
         }
-        public GetProductSpec(int id):base(x=>x.Id==id)
-        
+
+
+        public GetProductSpec(int id) : base(x => x.Id == id)
         {
             AddInclude(x => x.ProductBrand);
             AddInclude(x => x.ProductType);
+        }
+    }
+
+    public class ProductsCountSpec : BaseSpecification<Product>
+    {
+        public ProductsCountSpec(GetAllProductsQuery specParams) : base(Expression.ExpressionSpec(specParams))
+        {
+            IsPagingEnabled = false;
+        }
+    }
+
+    public static class Expression
+    {
+        public static Expression<Func<Product, bool>> ExpressionSpec(GetAllProductsQuery specParams)
+        {
+            return x =>
+                (string.IsNullOrEmpty(specParams.Search) || x.Title.ToLower().Contains(specParams.Search))
+                &&
+                (!specParams.BrandId.HasValue || x.ProductBrandId == specParams.BrandId.Value)
+                &&
+                (!specParams.TypeId.HasValue || x.ProductTypeId == specParams.TypeId.Value);
         }
     }
 }

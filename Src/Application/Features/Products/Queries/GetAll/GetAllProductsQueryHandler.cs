@@ -1,5 +1,6 @@
 ﻿using Application.Contracts;
 using Application.Dtos.Products;
+using Application.Wrappers;
 using AutoMapper;
 using Domain.Entities;
 using MediatR;
@@ -11,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Application.Features.Products.Queries.GetAll
 {
-    public class GetAllProductsQueryHandler : IRequestHandler<GetAllProductsQuery, IEnumerable<ProductDto>>
+    public class GetAllProductsQueryHandler : IRequestHandler<GetAllProductsQuery, PaginationResponse<ProductDto>>
     {
         private readonly IUnitOWork _uow;
         private readonly IMapper _mapper;
@@ -21,12 +22,16 @@ namespace Application.Features.Products.Queries.GetAll
             _uow = uow;
             _mapper = mapper;
         }
-        public async Task<IEnumerable<ProductDto>> Handle(GetAllProductsQuery request, CancellationToken cancellationToken)
+
+        public async Task<PaginationResponse<ProductDto>> Handle(GetAllProductsQuery request,
+            CancellationToken cancellationToken)
         {
             var spec = new GetProductSpec(request);
             var result = await _uow.Repository<Product>().ListAsyncSpec(spec, cancellationToken);
-            return  _mapper.Map<IEnumerable<ProductDto>>(result);
-            //return await _unow.Repository<Product>().GetAllAsync(cancellationToken);
+            var count = await _uow.Repository<Product>().CountAsyncSpec(new ProductsCountSpec(request), cancellationToken);
+            var model = _mapper.Map<IEnumerable<ProductDto>>(result);
+            return new PaginationResponse<ProductDto>(request.PageIndex, request.PageSize, count, model);
+
         }
     }
 }

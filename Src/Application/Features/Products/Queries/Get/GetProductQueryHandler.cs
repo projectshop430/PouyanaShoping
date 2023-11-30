@@ -3,6 +3,7 @@ using Application.Dtos.Products;
 using Application.Features.Products.Queries.GetAll;
 using AutoMapper;
 using Domain.Entities;
+using Domain.Exceptions;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -27,7 +28,7 @@ namespace Application.Features.Products.Queries.Get
         {
             var spec = new GetProductSpec(request.Id);
             var result = await _uow.Repository<Product>().GetEntityWithSpec(spec, cancellationToken);
-            //if (result == null) throw new NotFoundEntityException();
+            if (result == null) throw new NotFoundEntityException();
             return _mapper.Map<ProductDto>(result);
         }
     }

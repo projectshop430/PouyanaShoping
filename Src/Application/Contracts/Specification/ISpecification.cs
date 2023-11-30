@@ -18,6 +18,6 @@ namespace Application.Contracts.Specification
         //pagination
         public int Take { get; }
         public int Skip { get; }
-        public bool IsPagingEnabled { get; }
+        public bool IsPagingEnabled { get; } 
     }
 }

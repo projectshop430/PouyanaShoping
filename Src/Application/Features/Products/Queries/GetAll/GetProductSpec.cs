@@ -52,8 +52,9 @@ namespace Application.Features.Products.Queries.GetAll
                         AddOrderBy(x => x.Title);
                         break;
                 }
-            
-           
+            //pagination
+            ApplyPaging(specParams.PageSize * (specParams.PageIndex - 1), specParams.PageSize, true);
+
         }
         public GetProductSpec(int id):base(x=>x.Id==id)
         

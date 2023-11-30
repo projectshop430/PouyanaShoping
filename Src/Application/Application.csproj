@@ -11,7 +11,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Common\BehavioursPipes\" />
     <Folder Include="Dtos\Account\" />
     <Folder Include="Dtos\OrderDto\" />
     <Folder Include="Dtos\ProductBrands\" />

@@ -19,9 +19,6 @@ namespace Domain.Exceptions
         {
         }
 
-        public BaseException(IEnumerable<ValidationFailure> validationFailures)
-        {
-            Messages = validationFailures.Select(x => x.ErrorMessage).ToList();
-        }
+       
     }
 }

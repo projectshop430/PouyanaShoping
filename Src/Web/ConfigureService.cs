@@ -1,5 +1,7 @@
-﻿using Infrastructure.Persistence.Context;
+﻿using Domain.Exceptions;
+using Infrastructure.Persistence.Context;
 using Infrastructure.Persistence.SeedData;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Runtime.CompilerServices;
 
@@ -12,6 +14,7 @@ namespace Web
             // Add services to the container.
 
             builder.Services.AddControllers();
+            ApiBehaviorOptions(builder);
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
           
@@ -55,6 +58,22 @@ namespace Web
 
             app.Run();
             return app;
+        }
+        private static void ApiBehaviorOptions(WebApplicationBuilder builder)
+        {
+            //TODO check this
+            builder.Services.Configure<ApiBehaviorOptions>(options =>
+            {
+                options.InvalidModelStateResponseFactory = actionContext =>
+                {
+                    var errors = actionContext.ModelState
+                        .Where(e => e.Value != null && e.Value.Errors.Count > 0)
+                        .SelectMany(v => v.Value!.Errors)
+                        .Select(c => c.ErrorMessage).ToList();
+
+                    return new BadRequestObjectResult(new ApiToReturn(400, errors));
+                };
+            });
         }
     }
 }

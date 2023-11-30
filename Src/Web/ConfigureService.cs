@@ -17,6 +17,10 @@ namespace Web
           
 
             builder.Services.AddSwaggerGen();
+            //IHTTPContext
+            builder.Services.AddHttpContextAccessor();
+            //cache memory
+            builder.Services.AddDistributedMemoryCache();
             return builder.Services;
         }
         public static async Task<IApplicationBuilder> AddWebAppService(this WebApplication app)

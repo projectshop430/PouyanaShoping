@@ -17,7 +17,7 @@ namespace Application
             services.AddMediatR(Assembly.GetExecutingAssembly());
             //pipeline
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(PerformanceBehaviour<,>));
-        
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(CachedQueryBehaviour<,>));
         }
     }
 }

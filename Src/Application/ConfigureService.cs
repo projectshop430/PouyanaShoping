@@ -10,8 +10,9 @@ namespace Application
     {
         public static void AddApplicationServices(this IServiceCollection services)
         {
-         
+
             //collection add => service provider get =>DI
+            services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddMediatR(Assembly.GetExecutingAssembly());
            
         }

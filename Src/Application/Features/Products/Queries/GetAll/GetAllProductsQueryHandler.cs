@@ -1,4 +1,6 @@
 ﻿using Application.Contracts;
+using Application.Dtos.Products;
+using AutoMapper;
 using Domain.Entities;
 using MediatR;
 using System;
@@ -9,17 +11,21 @@ using System.Threading.Tasks;
 
 namespace Application.Features.Products.Queries.GetAll
 {
-    public class GetAllProductsQueryHandler : IRequestHandler<GetAllProductsQuery, IEnumerable<Product>>
+    public class GetAllProductsQueryHandler : IRequestHandler<GetAllProductsQuery, IEnumerable<ProductDto>>
     {
-        private readonly IUnitOWork _unow;
-        public GetAllProductsQueryHandler(IUnitOWork unow)
+        private readonly IUnitOWork _uow;
+        private readonly IMapper _mapper;
+
+        public GetAllProductsQueryHandler(IUnitOWork uow, IMapper mapper)
         {
-            _unow=unow;
+            _uow = uow;
+            _mapper = mapper;
         }
-        public async Task<IEnumerable<Product>> Handle(GetAllProductsQuery request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<ProductDto>> Handle(GetAllProductsQuery request, CancellationToken cancellationToken)
         {
             var spec = new GetProductSpec();
-            return await _unow.Repository<Product>().ListAsyncSpec(spec, cancellationToken);
+            var result = await _uow.Repository<Product>().ListAsyncSpec(spec, cancellationToken);
+            return  _mapper.Map<IEnumerable<ProductDto>>(result);
             //return await _unow.Repository<Product>().GetAllAsync(cancellationToken);
         }
     }

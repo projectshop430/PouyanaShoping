@@ -10,4 +10,6 @@ builder.AddWebServiceCollation();
 
 
 var app = builder.Build();
+//access  wwwroot
+app.UseStaticFiles();
 await app.AddWebAppService().ConfigureAwait(false);

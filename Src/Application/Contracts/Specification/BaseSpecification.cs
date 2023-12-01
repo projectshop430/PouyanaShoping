@@ -15,7 +15,7 @@ namespace Application.Contracts.Specification
         public Expression<Func<T, object>> OrderByDesc { get; private set; }
         public int Take { get; set; }
         public int Skip { get; set; }
-        public bool IsPagingEnabled { get; set; } = true;
+        public bool IsPagingEnabled { get; set; } 
 
         public Expression<Func<T, bool>> Predicate { get; }
         public List<Expression<Func<T, object>>> Includes { get; } = new();

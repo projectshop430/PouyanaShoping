@@ -52,7 +52,7 @@ namespace Web
             try
             {
 
-                await context.Database.MigrateAsync();
+              //  await context.Database.MigrateAsync();
                 await GenerateFakeData.SeedDataAsync(context, loggerFactory);
             }
             catch (Exception e)

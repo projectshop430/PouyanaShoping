@@ -10,6 +10,7 @@ builder.Services.AddInfrastructureServices(builder.Configuration);
 builder.AddWebServiceCollation(builder.Configuration);
 
 
+//comit
 var app = builder.Build();
 
 await app.AddWebAppService().ConfigureAwait(false);

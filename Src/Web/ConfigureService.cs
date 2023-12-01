@@ -4,12 +4,13 @@ using Infrastructure.Persistence.SeedData;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Runtime.CompilerServices;
+using Web.Middleware;
 
 namespace Web
 {
     public static class ConfigureService
     {
-        public static IServiceCollection AddWebServiceCollation(this WebApplicationBuilder builder)
+        public static IServiceCollection AddWebServiceCollation(this WebApplicationBuilder builder , IConfiguration configuration)
         {
             // Add services to the container.
 
@@ -20,6 +21,18 @@ namespace Web
           
 
             builder.Services.AddSwaggerGen();
+
+            builder.Services.AddCors(opt =>
+            {
+                opt.AddPolicy("CorsPolicy",
+                    policy =>
+                    {
+                        policy.AllowAnyHeader().AllowAnyMethod()
+                            .WithOrigins(configuration["CorsAddress:AddressHttp"] ?? string.Empty,
+                                configuration["CorsAddress:AddressHttps"] ?? string.Empty);
+                    });
+            });
+
             //IHTTPContext
             builder.Services.AddHttpContextAccessor();
             //cache memory
@@ -28,6 +41,9 @@ namespace Web
         }
         public static async Task<IApplicationBuilder> AddWebAppService(this WebApplication app)
         {
+            app.UseMiddleware<MiddlewareExceptionHandler>();
+            //access  wwwroot
+          
             var scope = app.Services.CreateScope();
             var services = scope.ServiceProvider;
             //get service
@@ -51,9 +67,12 @@ namespace Web
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-
+            app.UseStaticFiles();
+            app.UseRouting();
+            //CORS
+            app.UseCors("CorsPolicy");
             app.UseAuthorization();
-
+           
             app.MapControllers();
 
             app.Run();

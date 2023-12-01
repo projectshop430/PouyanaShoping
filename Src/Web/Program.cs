@@ -7,11 +7,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddApplicationServices();
 builder.Services.AddInfrastructureServices(builder.Configuration);
 //Configuartion
-builder.AddWebServiceCollation();
+builder.AddWebServiceCollation(builder.Configuration);
 
 
 var app = builder.Build();
-app.UseMiddleware<MiddlewareExceptionHandler>();
-//access  wwwroot
-app.UseStaticFiles();
+
 await app.AddWebAppService().ConfigureAwait(false);
